@@ -29,5 +29,21 @@ namespace API.Controllers
             return await _context.Activities.FindAsync(id);
             
         }
+
+        [HttpPost]
+        public async Task<ActionResult> AddActivity(Activity activity) {
+
+            if(!ModelState.IsValid) {
+                return BadRequest("error");
+            }
+
+            _context.Activities.Add(activity);
+
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetActivity), new { Id = activity.Id}, activity);
+
+        }
+        
     }
 }
